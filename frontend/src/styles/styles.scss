@@ -1,0 +1,242 @@
+body {
+  background-color: #fff !important;
+}
+
+
+/* Синий текст для конкретных пунктов */
+.nav-treeview {
+  .custom-bg-link {
+    .nav-link {
+      color: #007bff !important;
+
+      &:hover {
+        color: white !important;
+      }
+    }
+  }
+}
+
+/* При наведении — синий фон + белый текст */
+.nav-link:hover {
+  background-color: #007bff !important;
+  color: white !important;
+
+}
+
+/* Вертикальная серая полоска справа от сайдбара */
+.main-sidebar {
+  position: relative;
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 1px;
+    height: 100%;
+    background-color: #dee2e6;
+    z-index: 1000;
+  }
+}
+
+/* Стили для горизонтальных разделителей */
+.sidebar-divider {
+  height: 1px;
+  margin: 1rem 0;
+  overflow: hidden;
+  background-color: #dee2e6;
+  border: none;
+}
+
+.brand-link {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+  img {
+    margin: 0 auto;
+  }
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  .image {
+    i.fa {
+      color: #D9D9D9;
+      font-size: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+}
+
+/* Выравнивание текста слева */
+.nav-sidebar {
+  .nav-link {
+    > p,
+    > span {
+      text-align: left !important;
+      width: 100%;
+      margin-right: auto;
+    }
+  }
+
+  .nav-item.has-treeview {
+    > .nav-link {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-treeview {
+      .nav-link {
+        display: flex;
+        flex-wrap: wrap;
+      }
+    }
+  }
+
+}
+
+body {
+  background-color: #fff !important;
+}
+
+/* Синий текст для конкретных пунктов */
+.nav-treeview {
+  .custom-bg-link {
+    .nav-link {
+      color: #007bff !important;
+
+      &:hover {
+        color: white !important;
+      }
+    }
+  }
+}
+
+/* При наведении — синий фон + белый текст */
+.nav-link:hover {
+  background-color: #007bff !important;
+  color: white !important;
+}
+
+/* Вертикальная серая полоска справа от сайдбара */
+.main-sidebar {
+  position: relative;
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 1px;
+    height: 100%;
+    background-color: #dee2e6;
+    z-index: 1000;
+  }
+}
+
+/* Стили для горизонтальных разделителей */
+.sidebar-divider {
+  height: 1px;
+  margin: 1rem 0;
+  overflow: hidden;
+  background-color: #dee2e6;
+  border: none;
+}
+
+.brand-link {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+  img {
+    margin: 0 auto;
+  }
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  .image {
+    i.fa {
+      color: #D9D9D9;
+      font-size: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+}
+
+/* Выравнивание текста слева */
+.nav-sidebar {
+  .nav-link {
+    > p,
+    > span {
+      text-align: left !important;
+      width: 100%;
+      margin-right: auto;
+    }
+  }
+
+  .nav-item.has-treeview {
+    > .nav-link {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-treeview {
+      .nav-link {
+        display: flex;
+        flex-wrap: wrap;
+      }
+    }
+  }
+}
+
+
+// Скрываем ссылку выхода, показываем при нажатии
+.user-panel {
+  .logout-link {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+
+    .fas {
+      font-size: 1rem;
+    }
+  }
+
+  &:hover .logout-link {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+///* Скрываем navbar на десктопе */
+//@media (min-width: 768px) {
+//  .main-header {
+//    display: none !important;
+//  }
+//}
+//
+///* Опционально: ширина сайдбара на десктопе */
+//@media (min-width: 768px) {
+//  .main-sidebar {
+//    width: 250px !important;
+//  }
+//  .content-wrapper {
+//    margin-left: 250px !important;
+//  }
+//}

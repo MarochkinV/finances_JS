@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title id="title">Title</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+          rel="stylesheet">
+    <link rel="stylesheet" href="/css/all.min.css">
+    <link rel="stylesheet" href="/css/adminlte.min.css">
+    <script src="/js/jquery.min.js" defer="defer"></script>
+    <script src="/js/bootstrap.bundle.min.js" defer="defer"></script>
+    <script src="/js/adminlte.min.js" defer="defer"></script>
+    <script defer="defer" src="app.js"></script>
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+<div id="content"></div>
+<script>document.addEventListener('DOMContentLoaded', function () {
+    const userPanel = document.querySelector('.user-panel');
+    const logoutLink = userPanel.querySelector('.logout-link');
+
+    userPanel.addEventListener('click', function (e) {
+        // Если кликнули по ссылке "Выход" — ничего не делаем, переход произойдёт
+        if (logoutLink.contains(e.target)) {
+            return; // выходим из обработчика
+        }
+
+        // Переключаем класс: показываем или скрываем ссылку
+        userPanel.classList.toggle('show-logout');
+    });
+});</script>
+</body>
+</html>
