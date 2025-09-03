@@ -2,6 +2,8 @@ import "./styles/styles.scss"; //Подключаем стили styles.scss
 import {Router} from "./router.js"; //При использовании сборщика Webpack можно не ставить .js
 
 
+
+
 class App {
     constructor() {
 

@@ -3,8 +3,18 @@ import {SignUp} from "./components/sign-up";
 import {Main} from "./components/main";
 import {Logout} from "./components/logout";
 import {IncomeAndExpense} from "./components/income-and-expense";
+import {IncomeAndExpenseCreation} from "./components/income-and-expense-creation";
+import {IncomeAndExpenseEdit} from "./components/income-and-expense-edit";
 import {IncomeCategory} from "./components/income-category";
+import {IncomeCategoryCreation} from "./components/income-category-creation";
+import {IncomeCategoryEdit} from "./components/income-category-edit";
 import {ExpenseCategory} from "./components/expense-category";
+import {ExpenseCategoryCreation} from "./components/expense-category-creation";
+import {ExpenseCategoryEdit} from "./components/expense-category-edit";
+
+
+
+
 
 export class Router {
     constructor() {
@@ -80,6 +90,24 @@ export class Router {
                 },
             },
             {
+                route: '/income-and-expense-creation',
+                title: 'Создание дохода/расхода',
+                filePathTemplate: '/templates/income-and-expense-creation.html',
+                useLayout: '/templates/layout.html',
+                load: () => {
+                    new IncomeAndExpenseCreation(this.openNewRoute.bind(this));
+                },
+            },
+            {
+                route: '/income-and-expense-edit',
+                title: 'Создание дохода/расхода',
+                filePathTemplate: '/templates/income-and-expense-edit.html',
+                useLayout: '/templates/layout.html',
+                load: () => {
+                    new IncomeAndExpenseEdit(this.openNewRoute.bind(this));
+                },
+            },
+            {
                 route: '/income-category',
                 title: 'Доходы & Расходы',
                 filePathTemplate: '/templates/income-category.html',
@@ -89,12 +117,48 @@ export class Router {
                 },
             },
             {
+                route: '/income-category-creation',
+                title: 'Создание категории доходов',
+                filePathTemplate: '/templates/income-category-creation.html',
+                useLayout: '/templates/layout.html',
+                load: () => {
+                    new IncomeCategoryCreation(this.openNewRoute.bind(this));
+                },
+            },
+            {
+                route: '/income-category-edit',
+                title: 'Создание категории доходов',
+                filePathTemplate: '/templates/income-category-edit.html',
+                useLayout: '/templates/layout.html',
+                load: () => {
+                    new IncomeCategoryEdit(this.openNewRoute.bind(this));
+                },
+            },
+            {
                 route: '/expense-category',
                 title: 'Доходы & Расходы',
                 filePathTemplate: '/templates/expense-category.html',
                 useLayout: '/templates/layout.html',
                 load: () => {
                     new ExpenseCategory(this.openNewRoute.bind(this));
+                },
+            },
+            {
+                route: '/expense-category-creation',
+                title: 'Создание категории расходов',
+                filePathTemplate: '/templates/expense-category-creation.html',
+                useLayout: '/templates/layout.html',
+                load: () => {
+                    new ExpenseCategoryCreation(this.openNewRoute.bind(this));
+                },
+            },
+            {
+                route: '/expense-category-edit',
+                title: 'Редактирование категории расходов',
+                filePathTemplate: '/templates/expense-category-edit.html',
+                useLayout: '/templates/layout.html',
+                load: () => {
+                    new ExpenseCategoryEdit(this.openNewRoute.bind(this));
                 },
             },
         ];
@@ -200,12 +264,13 @@ export class Router {
                         const layoutHtml = await fetch(newRoute.useLayout).then(res => res.text());
                         this.contentPageElement.innerHTML = layoutHtml;
 
-                        // === 🔥 ИНИЦИАЛИЗИРУЕМ TREEVIEW ВРУЧНУЮ ===
-                        // if (typeof $.fn !== 'undefined' && typeof $.fn.Treeview !== 'undefined') {
-                        //     $('[data-widget="treeview"]').Treeview('init');
-                        // } else {
-                        //     console.warn('Treeview недоступен. Убедись, что adminlte.min.js загружен.');
-                        // }
+                        // ===Костыль 🛠 🔥 ИНИЦИАЛИЗИРУЕМ TREEVIEW ВРУЧНУЮ ===
+                        if (typeof $.fn !== 'undefined' && typeof $.fn.Treeview !== 'undefined') {
+                            $('[data-widget="treeview"]').Treeview('init');
+                        } else {
+                            console.warn('Treeview недоступен. Убедись, что adminlte.min.js загружен.');
+                        }
+                        // ===Костыль 🛠 🔥 ИНИЦИАЛИЗИРУЕМ TREEVIEW ВРУЧНУЮ ===
 
                         contentBlock = document.getElementById('content-layout');
                         document.body.classList.add('sidebar-mini', 'layout-fixed');
