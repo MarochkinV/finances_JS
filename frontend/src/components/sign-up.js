@@ -83,20 +83,18 @@ export class SignUp {
                 lastName: this.lastNameElement.value,
                 email: this.emailElement.value,
                 password: this.passwordElement.value,
+                passwordRepeat: this.passwordRepeatElement.value
             })
-
             //Проверка result на наличие ошибки или отсутствия какого либо значения, в случае ошибки показывается сообщение
-            if (result.error || !result.response || (result.response && (!result.response.accessToken || !result.response.refreshToken || !result.response.id || !result.response.name))) {
+            if (result.error || !result.response || (result.response && (!result.response.user.id || !result.response.user.name))) {
                 this.commonErrorElement.style.display = "block";
                 return;
             }
-
             //Сохранение токенов и рефрештокенов используем auth-utils.js там прописан данный функционал
-            AuthUtils.setAuthInfo(result.response.accessToken, result.response.refreshToken, {id: result.response.id, name: result.response.name});
-
+            AuthUtils.setAuthInfo(result.response.accessToken, result.response.refreshToken, {id: result.response.user.id, name: result.response.user.name});
 
             //Перевод пользователя на главную страницу
-            this.openNewRoute('/');
+            this.openNewRoute('/login');
 
         }
     };

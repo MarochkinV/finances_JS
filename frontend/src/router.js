@@ -265,11 +265,11 @@ export class Router {
                         this.contentPageElement.innerHTML = layoutHtml;
 
                         // ===Костыль 🛠 🔥 ИНИЦИАЛИЗИРУЕМ TREEVIEW ВРУЧНУЮ ===
-                        if (typeof $.fn !== 'undefined' && typeof $.fn.Treeview !== 'undefined') {
+                        // if (typeof $.fn !== 'undefined' && typeof $.fn.Treeview !== 'undefined') {
                             $('[data-widget="treeview"]').Treeview('init');
-                        } else {
-                            console.warn('Treeview недоступен. Убедись, что adminlte.min.js загружен.');
-                        }
+                        // } else {
+                        //     console.warn('Treeview недоступен. Убедись, что adminlte.min.js загружен.');
+                        // }
                         // ===Костыль 🛠 🔥 ИНИЦИАЛИЗИРУЕМ TREEVIEW ВРУЧНУЮ ===
 
                         contentBlock = document.getElementById('content-layout');
