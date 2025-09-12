@@ -13,9 +13,6 @@ import {ExpenseCategoryCreation} from "./components/expense-category-creation";
 import {ExpenseCategoryEdit} from "./components/expense-category-edit";
 
 
-
-
-
 export class Router {
     constructor() {
         this.titlePageElement = document.getElementById('title');
@@ -23,6 +20,15 @@ export class Router {
         this.adminLteStyleElement = document.getElementById('adminlte_style');
 
         this.initEvents();
+
+        //Инициализация активного состояния меню при создании роутера 📌
+        this.initMenuActiveState();
+
+        //Добавляем обновление имени пользователя при инициализации роутера 📌
+        this.updateUserName();
+
+        // 🔒 ОПРЕДЕЛЯЕМ ПУБЛИЧНЫЕ МАРШРУТЫ, КОТОРЫЕ ДОСТУПНЫ БЕЗ АВТОРИЗАЦИИ 📌
+        this.publicRoutes = ['/login', '/sign-up', '/404'];
 
         //Массив, который отвечает за наши страницы
         this.routes = [
@@ -32,6 +38,7 @@ export class Router {
                 title: 'Главная', //Вставка  title страницы
                 filePathTemplate: '/templates/main.html', //Вставка шаблона со страницей HTML
                 useLayout: '/templates/layout.html', //Вставляем там, где нужно загрузить, заранее подготовленный layout.html
+                requiresAuth: true, // 🔒 ДОБАВЛЯЕМ ФЛАГ ТРЕБУЮЩИЙ АВТОРИЗАЦИЮ 📌
                 load: () => { //Загрузка компонента с классами JS определенной страницы
                     new Main();
 
@@ -43,12 +50,14 @@ export class Router {
                 filePathTemplate: '/templates/404.html',
                 //load не добавляется для страницы 404 так как незачем, на этой странице нет кода JS
                 useLayout: false,
+                requiresAuth: false, // 🔒 404 ДОСТУПНА ВСЕМ 📌
             },
             {
                 route: '/login',
                 title: 'Авторизация',
                 filePathTemplate: '/templates/login.html',
                 useLayout: false,
+                requiresAuth: false, // 🔒 ПУБЛИЧНЫЙ МАРШРУТ 📌
                 load: () => {
                     document.body.classList.add('login-page'); //Добавляем класс к body на странице login для правильного отображения контента, согласно шаблона AdminLTE
                     document.body.style.height = '100vh'; //Добавляем дополнительный стиль к body для правильного отображения контента, согласно шаблона AdminLTE
@@ -64,6 +73,7 @@ export class Router {
                 title: 'Регистрация',
                 filePathTemplate: '/templates/sign-up.html',
                 useLayout: false,
+                requiresAuth: false, // 🔒 ПУБЛИЧНЫЙ МАРШРУТ 📌
                 load: () => {
                     document.body.classList.add('register-page');
                     document.body.style.height = '100vh';
@@ -76,6 +86,7 @@ export class Router {
             },
             {
                 route: '/logout',
+                requiresAuth: true, // 🔒 ТРЕБУЕТ АВТОРИЗАЦИИ 📌
                 load: () => {
                     new Logout(this.openNewRoute.bind(this));
                 },
@@ -85,6 +96,7 @@ export class Router {
                 title: 'Доходы & Расходы',
                 filePathTemplate: '/templates/income-and-expense.html',
                 useLayout: '/templates/layout.html',
+                requiresAuth: true, // 🔒 ТРЕБУЕТ АВТОРИЗАЦИИ 📌
                 load: () => {
                     new IncomeAndExpense(this.openNewRoute.bind(this));
                 },
@@ -94,6 +106,7 @@ export class Router {
                 title: 'Создание дохода/расхода',
                 filePathTemplate: '/templates/income-and-expense-creation.html',
                 useLayout: '/templates/layout.html',
+                requiresAuth: true, // 🔒 ТРЕБУЕТ АВТОРИЗАЦИИ 📌
                 load: () => {
                     new IncomeAndExpenseCreation(this.openNewRoute.bind(this));
                 },
@@ -103,6 +116,7 @@ export class Router {
                 title: 'Создание дохода/расхода',
                 filePathTemplate: '/templates/income-and-expense-edit.html',
                 useLayout: '/templates/layout.html',
+                requiresAuth: true, // 🔒 ТРЕБУЕТ АВТОРИЗАЦИИ 📌
                 load: () => {
                     new IncomeAndExpenseEdit(this.openNewRoute.bind(this));
                 },
@@ -112,6 +126,7 @@ export class Router {
                 title: 'Доходы & Расходы',
                 filePathTemplate: '/templates/income-category.html',
                 useLayout: '/templates/layout.html',
+                requiresAuth: true, // 🔒 ТРЕБУЕТ АВТОРИЗАЦИИ 📌
                 load: () => {
                     new IncomeCategory(this.openNewRoute.bind(this));
                 },
@@ -121,6 +136,7 @@ export class Router {
                 title: 'Создание категории доходов',
                 filePathTemplate: '/templates/income-category-creation.html',
                 useLayout: '/templates/layout.html',
+                requiresAuth: true, // 🔒 ТРЕБУЕТ АВТОРИЗАЦИИ 📌
                 load: () => {
                     new IncomeCategoryCreation(this.openNewRoute.bind(this));
                 },
@@ -130,6 +146,7 @@ export class Router {
                 title: 'Создание категории доходов',
                 filePathTemplate: '/templates/income-category-edit.html',
                 useLayout: '/templates/layout.html',
+                requiresAuth: true, // 🔒 ТРЕБУЕТ АВТОРИЗАЦИИ 📌
                 load: () => {
                     new IncomeCategoryEdit(this.openNewRoute.bind(this));
                 },
@@ -139,6 +156,7 @@ export class Router {
                 title: 'Доходы & Расходы',
                 filePathTemplate: '/templates/expense-category.html',
                 useLayout: '/templates/layout.html',
+                requiresAuth: true, // 🔒 ТРЕБУЕТ АВТОРИЗАЦИИ 📌
                 load: () => {
                     new ExpenseCategory(this.openNewRoute.bind(this));
                 },
@@ -148,6 +166,7 @@ export class Router {
                 title: 'Создание категории расходов',
                 filePathTemplate: '/templates/expense-category-creation.html',
                 useLayout: '/templates/layout.html',
+                requiresAuth: true, // 🔒 ТРЕБУЕТ АВТОРИЗАЦИИ 📌
                 load: () => {
                     new ExpenseCategoryCreation(this.openNewRoute.bind(this));
                 },
@@ -157,17 +176,96 @@ export class Router {
                 title: 'Редактирование категории расходов',
                 filePathTemplate: '/templates/expense-category-edit.html',
                 useLayout: '/templates/layout.html',
+                requiresAuth: true, // 🔒 ТРЕБУЕТ АВТОРИЗАЦИИ 📌
                 load: () => {
                     new ExpenseCategoryEdit(this.openNewRoute.bind(this));
                 },
             },
+
         ];
 
 
     }
 
+    // 🔒 МЕТОД ДЛЯ ПРОВЕРКИ АВТОРИЗАЦИИ ПОЛЬЗОВАТЕЛЯ 📌
+    isAuthenticated() {
+        const userData = localStorage.getItem('userData');
+        return userData !== null && userData !== undefined;
+    }
+
+    // 🔒 МЕТОД ДЛЯ ПРОВЕРКИ, ЯВЛЯЕТСЯ ЛИ МАРШРУТ ПУБЛИЧНЫМ 📌
+    isPublicRoute(route) {
+        return this.publicRoutes.includes(route);
+    }
+
+    // 🔒 МЕТОД ДЛЯ ПЕРЕНАПРАВЛЕНИЯ НЕАВТОРИЗОВАННЫХ ПОЛЬЗОВАТЕЛЕЙ 📌
+    redirectToLogin() {
+        if (window.location.pathname !== '/login') {
+            history.replaceState({}, '', '/login');
+            this.activateRoute();
+        }
+    }
+
+    //Метод для инициализации активного состояния меню 📌
+    initMenuActiveState() {
+        // Сохраняем текущий активный пункт в sessionStorage для сохранения между перезагрузками
+        const savedActiveItem = sessionStorage.getItem('activeMenuItem');
+        if (savedActiveItem) {
+            // Устанавливаем с небольшой задержкой чтобы DOM успел полностью загрузиться
+            setTimeout(() => {
+                this.setActiveMenuItem(savedActiveItem);
+            }, 100);
+        }
+    }
+
+    //Метод для установки активного пункта меню 📌
+    setActiveMenuItem(route) {
+        // Удаляем активный класс у всех пунктов меню
+        const allNavLinks = document.querySelectorAll('.nav-sidebar .nav-link');
+        allNavLinks.forEach(link => {
+            link.classList.remove('active');
+        });
+
+        // Находим и активируем соответствующий пункт меню по href
+        const targetLink = document.querySelector(`.nav-sidebar .nav-link[href="${route}"]`);
+
+        if (targetLink) {
+            targetLink.classList.add('active');
+
+            // Если это подпункт (внутри nav-treeview), активируем также родительский пункт
+            const parentItem = targetLink.closest('.nav-treeview');
+            if (parentItem) {
+                const parentLink = parentItem.previousElementSibling;
+                if (parentLink && parentLink.classList.contains('nav-link')) {
+                    parentLink.classList.add('active');
+                }
+            }
+
+            // Сохраняем активный пункт в sessionStorage для восстановления после перезагрузки
+            sessionStorage.setItem('activeMenuItem', route);
+        }
+    }
+
+    //Метод для обновления имени пользователя в user panel 📌
+    updateUserName() {
+        const userNameElement = document.getElementById('user-name');
+        if (userNameElement) {
+            const userData = localStorage.getItem('userData');
+            if (userData) {
+                try {
+                    const user = JSON.parse(userData);
+                    // Используем fullName если есть, иначе name
+                    userNameElement.textContent = user.fullName || user.name || 'Пользователь';
+                } catch (e) {
+                    console.error('Ошибка парсинга userData:', e);
+                    userNameElement.textContent = 'Пользователь';
+                }
+            }
+        }
+    }
+
     initEvents() {
-        //В JavaScript значение this внутри функции зависит от контекста вызова. Когда браузер вызывает обработчик события (в данном случае activateRoute), он теряет привязку к this — то есть this внутри activateRoute может стать undefined (в строгом режиме) или указывать на window (в нестрогом), а не на экземпляр класса.Чтобы этого избежать, используется .bind(this) — это создаёт новую функцию, в которой this навсегда привязано к текущему экземпляру класса.Без .bind(this) вызов this.activateRoute внутри события может привести к ошибке, если в методе используется this для доступа к свойствам или другим методам класса.
+        //В JavaScript значение this внутри функции зависит от контекста вызова. Когда браузер вызывает обработчик события (в данном случае activateRoute), он теряет привязку к this — то есть this внутри activateRoute может стать undefined (в строгом режиме) или указывать на window (в нестрогом), а не на экземпляру класса.Чтобы этого избежать, используется .bind(this) — это создаёт новую функцию, в которой this навсегда привязано к текущему экземпляру класса.Без .bind(this) вызов this.activateRoute внутри события может привести к ошибке, если в методе используется this для доступа к свойствам или другим методам класса.
         window.addEventListener('DOMContentLoaded', this.activateRoute.bind(this));
         window.addEventListener('popstate', this.activateRoute.bind(this));
         //Событие п клику на любй элемент
@@ -238,6 +336,19 @@ export class Router {
         const urlRoute = window.location.pathname;
         const newRoute = this.routes.find(item => item.route === urlRoute);
 
+        // 🔒 ПРОВЕРКА АВТОРИЗАЦИИ ДЛЯ ЗАЩИЩЕННЫХ МАРШРУТОВ 📌
+        if (newRoute && newRoute.requiresAuth && !this.isAuthenticated()) {
+            this.redirectToLogin();
+            return;
+        }
+
+        // 🔒 ЕСЛИ ПОЛЬЗОВАТЕЛЬ АВТОРИЗОВАН И ПЫТАЕТСЯ ПОПАСТЬ НА LOGIN/SIGN-UP, ПЕРЕНАПРАВЛЯЕМ НА ГЛАВНУЮ 📌
+        if (this.isAuthenticated() && (urlRoute === '/login' || urlRoute === '/sign-up')) {
+            history.replaceState({}, '', '/');
+            await this.activateRoute();
+            return;
+        }
+
         if (newRoute) {
             //Проверка, имеются ли определенные стили которые нужно загрузить на страницу, в случае чего устанавливаем их
             if (newRoute.styles && newRoute.styles.length > 0) {
@@ -250,7 +361,7 @@ export class Router {
             }
             //Проверка, что title у routes существует
             if (newRoute.title) {
-                this.titlePageElement.innerText = newRoute.title + ' | Freelance Studio';
+                this.titlePageElement.innerText = newRoute.title + ' | Lumincoin Finance';
             }
 
             //Вставляем шаблон (template)
@@ -264,13 +375,9 @@ export class Router {
                         const layoutHtml = await fetch(newRoute.useLayout).then(res => res.text());
                         this.contentPageElement.innerHTML = layoutHtml;
 
-                        // ===Костыль 🛠 🔥 ИНИЦИАЛИЗИРУЕМ TREEVIEW ВРУЧНУЮ ===
-                        // if (typeof $.fn !== 'undefined' && typeof $.fn.Treeview !== 'undefined') {
-                            $('[data-widget="treeview"]').Treeview('init');
-                        // } else {
-                        //     console.warn('Treeview недоступен. Убедись, что adminlte.min.js загружен.');
-                        // }
-                        // ===Костыль 🛠 🔥 ИНИЦИАЛИЗИРУЕМ TREEVIEW ВРУЧНУЮ ===
+                        // 🔥 ИНИЦИАЛИЗИРУЕМ TREEVIEW ВРУЧНУЮ ===
+                        $('[data-widget="treeview"]').Treeview('init');
+
 
                         contentBlock = document.getElementById('content-layout');
                         document.body.classList.add('sidebar-mini', 'layout-fixed');
@@ -289,6 +396,14 @@ export class Router {
                     document.body.classList.remove('layout-fixed')
                 }
                 contentBlock.innerHTML = await fetch(newRoute.filePathTemplate).then(response => response.text());
+
+                //Обновляем имя пользователя после загрузки контента 📌
+                this.updateUserName();
+
+                //Устанавливаем активное состояние меню ПОСЛЕ загрузки контента 📌
+                setTimeout(() => {
+                    this.setActiveMenuItem(newRoute.route);
+                }, 100);
             }
 
 
@@ -306,6 +421,3 @@ export class Router {
         }
     };
 }
-
-
-

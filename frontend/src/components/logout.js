@@ -25,6 +25,8 @@ export class Logout {
         //Удаление токенов, рефрештокенов и информации о пользователе используем auth-utils.js там прописан данный функционал
         AuthUtils.removeAuthInfo();
 
+        //Удаляем данные пользователя из localStorage при выходе из системы 📌
+        localStorage.removeItem('userData');
 
         //Перевод пользователя на страницу /login
         this.openNewRoute('/login');
