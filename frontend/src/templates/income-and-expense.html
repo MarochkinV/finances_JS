@@ -4,8 +4,8 @@
 </div>
 <!--Кнопки создания дохода и расхода-->
 <div class="pl-5 pb-5">
-    <a href="/income-and-expense-creation" class="btn btn-success btn-sm p-2 pl-3 pr-3" style="border-radius: 5px;" id="btn-add-income">Создать доход</a>
-    <a href="/income-and-expense-creation" class="btn btn-danger btn-sm ml-2 p-2 pl-3 pr-3" style="border-radius: 5px;" id="btn-add-expense">Создать расход</a>
+    <a href="/income-and-expense-creation" class="btn btn-custom btn-success btn-sm p-2 pl-3 pr-3"  id="btn-add-income">Создать доход</a>
+    <a href="/income-and-expense-creation" class="btn btn-custom btn-danger btn-sm ml-2 p-2 pl-3 pr-3"  id="btn-add-expense">Создать расход</a>
 </div>
 <!--Кнопки с различными периодами года-->
 <div class="d-flex align-items-center pl-5 pb-5">
@@ -41,7 +41,7 @@
 <!--Таблица со списком-->
 <div class="d-flex align-items-center pl-5 pr-5">
     <table class="table text-center table-clean-header">
-        <thead style="color: #052C65;">
+        <thead>
         <tr>
             <th>№ операции</th>
             <th>Тип</th>
@@ -121,12 +121,12 @@
 <div class="modal fade" id="myModal">
     <div class="modal-dialog modal-dialog-centered ">
         <div class="modal-content elevation-0 border-0 pt-2 pb-2" style="border-radius: 12px;">
-            <div class="modal-body text-center py-4 px-3" style="color: #290661; font-weight: 500; font-size: 20px;">
+            <h5 class="modal-body text-center py-4 px-3">
                 Вы действительно хотите удалить операцию?
-            </div>
+            </h5>
             <div class="modal-footer d-flex justify-content-center border-top-0 pt-0 pb-3 px-3">
-                <button type="button" class="btn btn-success" style="border-radius: 5px;">Да, удалить</button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal" style="border-radius: 5px;">Не удалять</button>
+                <button type="button" class="btn btn-custom btn-success mr-2">Да, удалить</button>
+                <button type="button" class="btn btn-custom btn-danger" data-dismiss="modal">Не удалять</button>
             </div>
         </div>
     </div>

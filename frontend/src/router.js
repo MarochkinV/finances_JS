@@ -265,7 +265,6 @@ export class Router {
     }
 
     initEvents() {
-        //В JavaScript значение this внутри функции зависит от контекста вызова. Когда браузер вызывает обработчик события (в данном случае activateRoute), он теряет привязку к this — то есть this внутри activateRoute может стать undefined (в строгом режиме) или указывать на window (в нестрогом), а не на экземпляру класса.Чтобы этого избежать, используется .bind(this) — это создаёт новую функцию, в которой this навсегда привязано к текущему экземпляру класса.Без .bind(this) вызов this.activateRoute внутри события может привести к ошибке, если в методе используется this для доступа к свойствам или другим методам класса.
         window.addEventListener('DOMContentLoaded', this.activateRoute.bind(this));
         window.addEventListener('popstate', this.activateRoute.bind(this));
         //Событие п клику на любй элемент
@@ -336,13 +335,13 @@ export class Router {
         const urlRoute = window.location.pathname;
         const newRoute = this.routes.find(item => item.route === urlRoute);
 
-        // 🔒 ПРОВЕРКА АВТОРИЗАЦИИ ДЛЯ ЗАЩИЩЕННЫХ МАРШРУТОВ 📌
+        // 📌 Проверка авторизации для защищенных маршрутов
         if (newRoute && newRoute.requiresAuth && !this.isAuthenticated()) {
             this.redirectToLogin();
             return;
         }
 
-        // 🔒 ЕСЛИ ПОЛЬЗОВАТЕЛЬ АВТОРИЗОВАН И ПЫТАЕТСЯ ПОПАСТЬ НА LOGIN/SIGN-UP, ПЕРЕНАПРАВЛЯЕМ НА ГЛАВНУЮ 📌
+
         if (this.isAuthenticated() && (urlRoute === '/login' || urlRoute === '/sign-up')) {
             history.replaceState({}, '', '/');
             await this.activateRoute();
@@ -372,12 +371,8 @@ export class Router {
                 if (newRoute.useLayout) {
 
                     try {
-                        const layoutHtml = await fetch(newRoute.useLayout).then(res => res.text());
-                        this.contentPageElement.innerHTML = layoutHtml;
-
                         // 🔥 ИНИЦИАЛИЗИРУЕМ TREEVIEW ВРУЧНУЮ ===
                         $('[data-widget="treeview"]').Treeview('init');
-
 
                         contentBlock = document.getElementById('content-layout');
                         document.body.classList.add('sidebar-mini', 'layout-fixed');
@@ -400,7 +395,7 @@ export class Router {
                 //Обновляем имя пользователя после загрузки контента 📌
                 this.updateUserName();
 
-                //Устанавливаем активное состояние меню ПОСЛЕ загрузки контента 📌
+                //Устанавливаем активное состояние меню после загрузки контента 📌
                 setTimeout(() => {
                     this.setActiveMenuItem(newRoute.route);
                 }, 100);
