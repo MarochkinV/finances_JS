@@ -21,13 +21,13 @@ export class Router {
 
         this.initEvents();
 
-        //Инициализация активного состояния меню при создании роутера 📌
+        //Инициализация активного состояния меню при создании роутера
         this.initMenuActiveState();
 
-        //Добавляем обновление имени пользователя при инициализации роутера 📌
+        //Добавляем обновление имени пользователя при инициализации роутера
         this.updateUserName();
 
-        // 🔒 ОПРЕДЕЛЯЕМ ПУБЛИЧНЫЕ МАРШРУТЫ, КОТОРЫЕ ДОСТУПНЫ БЕЗ АВТОРИЗАЦИИ 📌
+
         this.publicRoutes = ['/login', '/sign-up', '/404'];
 
         //Массив, который отвечает за наши страницы
@@ -38,7 +38,7 @@ export class Router {
                 title: 'Главная', //Вставка  title страницы
                 filePathTemplate: '/templates/main.html', //Вставка шаблона со страницей HTML
                 useLayout: '/templates/layout.html', //Вставляем там, где нужно загрузить, заранее подготовленный layout.html
-                requiresAuth: true, // 🔒 ДОБАВЛЯЕМ ФЛАГ ТРЕБУЮЩИЙ АВТОРИЗАЦИЮ 📌
+                requiresAuth: true, //Требует авторизации true or false
                 load: () => { //Загрузка компонента с классами JS определенной страницы
                     new Main();
 
@@ -50,14 +50,14 @@ export class Router {
                 filePathTemplate: '/templates/404.html',
                 //load не добавляется для страницы 404 так как незачем, на этой странице нет кода JS
                 useLayout: false,
-                requiresAuth: false, // 🔒 404 ДОСТУПНА ВСЕМ 📌
+                requiresAuth: false,
             },
             {
                 route: '/login',
                 title: 'Авторизация',
                 filePathTemplate: '/templates/login.html',
                 useLayout: false,
-                requiresAuth: false, // 🔒 ПУБЛИЧНЫЙ МАРШРУТ 📌
+                requiresAuth: false,
                 load: () => {
                     document.body.classList.add('login-page'); //Добавляем класс к body на странице login для правильного отображения контента, согласно шаблона AdminLTE
                     document.body.style.height = '100vh'; //Добавляем дополнительный стиль к body для правильного отображения контента, согласно шаблона AdminLTE
@@ -73,7 +73,7 @@ export class Router {
                 title: 'Регистрация',
                 filePathTemplate: '/templates/sign-up.html',
                 useLayout: false,
-                requiresAuth: false, // 🔒 ПУБЛИЧНЫЙ МАРШРУТ 📌
+                requiresAuth: false,
                 load: () => {
                     document.body.classList.add('register-page');
                     document.body.style.height = '100vh';
@@ -86,7 +86,7 @@ export class Router {
             },
             {
                 route: '/logout',
-                requiresAuth: true, // 🔒 ТРЕБУЕТ АВТОРИЗАЦИИ 📌
+                requiresAuth: true,
                 load: () => {
                     new Logout(this.openNewRoute.bind(this));
                 },
@@ -96,7 +96,7 @@ export class Router {
                 title: 'Доходы & Расходы',
                 filePathTemplate: '/templates/income-and-expense.html',
                 useLayout: '/templates/layout.html',
-                requiresAuth: true, // 🔒 ТРЕБУЕТ АВТОРИЗАЦИИ 📌
+                requiresAuth: true,
                 load: () => {
                     new IncomeAndExpense(this.openNewRoute.bind(this));
                 },
@@ -106,7 +106,7 @@ export class Router {
                 title: 'Создание дохода/расхода',
                 filePathTemplate: '/templates/income-and-expense-creation.html',
                 useLayout: '/templates/layout.html',
-                requiresAuth: true, // 🔒 ТРЕБУЕТ АВТОРИЗАЦИИ 📌
+                requiresAuth: true,
                 load: () => {
                     new IncomeAndExpenseCreation(this.openNewRoute.bind(this));
                 },
@@ -116,7 +116,7 @@ export class Router {
                 title: 'Создание дохода/расхода',
                 filePathTemplate: '/templates/income-and-expense-edit.html',
                 useLayout: '/templates/layout.html',
-                requiresAuth: true, // 🔒 ТРЕБУЕТ АВТОРИЗАЦИИ 📌
+                requiresAuth: true,
                 load: () => {
                     new IncomeAndExpenseEdit(this.openNewRoute.bind(this));
                 },
@@ -126,9 +126,13 @@ export class Router {
                 title: 'Доходы & Расходы',
                 filePathTemplate: '/templates/income-category.html',
                 useLayout: '/templates/layout.html',
-                requiresAuth: true, // 🔒 ТРЕБУЕТ АВТОРИЗАЦИИ 📌
+                requiresAuth: true,
                 load: () => {
+                    document.getElementById('income-expense-category').classList.add('menu-open');
                     new IncomeCategory(this.openNewRoute.bind(this));
+                },
+                unload: () => {
+                    document.getElementById('income-expense-category').classList.remove('menu-open');
                 },
             },
             {
@@ -136,7 +140,7 @@ export class Router {
                 title: 'Создание категории доходов',
                 filePathTemplate: '/templates/income-category-creation.html',
                 useLayout: '/templates/layout.html',
-                requiresAuth: true, // 🔒 ТРЕБУЕТ АВТОРИЗАЦИИ 📌
+                requiresAuth: true,
                 load: () => {
                     new IncomeCategoryCreation(this.openNewRoute.bind(this));
                 },
@@ -146,7 +150,7 @@ export class Router {
                 title: 'Создание категории доходов',
                 filePathTemplate: '/templates/income-category-edit.html',
                 useLayout: '/templates/layout.html',
-                requiresAuth: true, // 🔒 ТРЕБУЕТ АВТОРИЗАЦИИ 📌
+                requiresAuth: true,
                 load: () => {
                     new IncomeCategoryEdit(this.openNewRoute.bind(this));
                 },
@@ -156,9 +160,13 @@ export class Router {
                 title: 'Доходы & Расходы',
                 filePathTemplate: '/templates/expense-category.html',
                 useLayout: '/templates/layout.html',
-                requiresAuth: true, // 🔒 ТРЕБУЕТ АВТОРИЗАЦИИ 📌
+                requiresAuth: true,
                 load: () => {
+                    document.getElementById('income-expense-category').classList.add('menu-open');
                     new ExpenseCategory(this.openNewRoute.bind(this));
+                },
+                unload: () => {
+                    document.getElementById('income-expense-category').classList.remove('menu-open');
                 },
             },
             {
@@ -166,7 +174,7 @@ export class Router {
                 title: 'Создание категории расходов',
                 filePathTemplate: '/templates/expense-category-creation.html',
                 useLayout: '/templates/layout.html',
-                requiresAuth: true, // 🔒 ТРЕБУЕТ АВТОРИЗАЦИИ 📌
+                requiresAuth: true,
                 load: () => {
                     new ExpenseCategoryCreation(this.openNewRoute.bind(this));
                 },
@@ -176,29 +184,20 @@ export class Router {
                 title: 'Редактирование категории расходов',
                 filePathTemplate: '/templates/expense-category-edit.html',
                 useLayout: '/templates/layout.html',
-                requiresAuth: true, // 🔒 ТРЕБУЕТ АВТОРИЗАЦИИ 📌
+                requiresAuth: true,
                 load: () => {
                     new ExpenseCategoryEdit(this.openNewRoute.bind(this));
                 },
             },
-
         ];
-
-
     }
 
-    // 🔒 МЕТОД ДЛЯ ПРОВЕРКИ АВТОРИЗАЦИИ ПОЛЬЗОВАТЕЛЯ 📌
+    //Метод для проверки авторизации пользователя
     isAuthenticated() {
         const userData = localStorage.getItem('userData');
         return userData !== null && userData !== undefined;
     }
-
-    // 🔒 МЕТОД ДЛЯ ПРОВЕРКИ, ЯВЛЯЕТСЯ ЛИ МАРШРУТ ПУБЛИЧНЫМ 📌
-    isPublicRoute(route) {
-        return this.publicRoutes.includes(route);
-    }
-
-    // 🔒 МЕТОД ДЛЯ ПЕРЕНАПРАВЛЕНИЯ НЕАВТОРИЗОВАННЫХ ПОЛЬЗОВАТЕЛЕЙ 📌
+    // Метод для перенаправления неавторизованных пользователей
     redirectToLogin() {
         if (window.location.pathname !== '/login') {
             history.replaceState({}, '', '/login');
@@ -206,7 +205,7 @@ export class Router {
         }
     }
 
-    //Метод для инициализации активного состояния меню 📌
+    //Метод для инициализации активного состояния меню
     initMenuActiveState() {
         // Сохраняем текущий активный пункт в sessionStorage для сохранения между перезагрузками
         const savedActiveItem = sessionStorage.getItem('activeMenuItem');
@@ -218,7 +217,7 @@ export class Router {
         }
     }
 
-    //Метод для установки активного пункта меню 📌
+    //Метод для установки активного пункта меню
     setActiveMenuItem(route) {
         // Удаляем активный класс у всех пунктов меню
         const allNavLinks = document.querySelectorAll('.nav-sidebar .nav-link');
@@ -246,7 +245,7 @@ export class Router {
         }
     }
 
-    //Метод для обновления имени пользователя в user panel 📌
+    //Метод для обновления имени пользователя в user panel
     updateUserName() {
         const userNameElement = document.getElementById('user-name');
         if (userNameElement) {
@@ -335,7 +334,7 @@ export class Router {
         const urlRoute = window.location.pathname;
         const newRoute = this.routes.find(item => item.route === urlRoute);
 
-        // 📌 Проверка авторизации для защищенных маршрутов
+        //Проверка авторизации для защищенных маршрутов
         if (newRoute && newRoute.requiresAuth && !this.isAuthenticated()) {
             this.redirectToLogin();
             return;
@@ -392,22 +391,18 @@ export class Router {
                 }
                 contentBlock.innerHTML = await fetch(newRoute.filePathTemplate).then(response => response.text());
 
-                //Обновляем имя пользователя после загрузки контента 📌
+                //Обновляем имя пользователя после загрузки контента
                 this.updateUserName();
-
-                //Устанавливаем активное состояние меню после загрузки контента 📌
+                //Устанавливаем активное состояние меню после загрузки контента
                 setTimeout(() => {
                     this.setActiveMenuItem(newRoute.route);
                 }, 100);
             }
 
-
             //Проверяем есть ли в newRoute функция Load и вызываем ее
             if (newRoute.load && typeof newRoute.load === 'function') {
                 newRoute.load();
             }
-
-
         } else {
             //Если route не найден, переводим на 404
             console.log('Маршрут не найден:', urlRoute);

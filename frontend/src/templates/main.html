@@ -1,28 +1,38 @@
 <!--Заголовок-->
 <div class="p-5 mt-5">
-    <h1 class="fs-1 fw-normal">Главная</h1>
+    <h1 class="fs-1 fw-normal bs-info-text-emphasis text-info">Главная</h1>
 </div>
 <!--Кнопки с различными периодами года-->
 <div class="d-flex align-items-center pl-5 pb-5">
     <div>
-        <button type="button" class="btn btn-block btn-outline-secondary btn-fixed" id="btn-today">Сегодня</button>
+        <button type="button" class="btn btn-block btn-outline-secondary btn-fixed font-weight-medium" id="btn-today">
+            Сегодня
+        </button>
     </div>
     <div>
-        <button type="button" class="btn btn-block btn-outline-secondary btn-fixed ml-3" id="btn-week">Неделя</button>
+        <button type="button" class="btn btn-block btn-outline-secondary btn-fixed ml-3 font-weight-medium"
+                id="btn-week">Неделя
+        </button>
     </div>
     <div>
-        <button type="button" class="btn btn-block btn-outline-secondary btn-fixed ml-3" id="btn-month">Месяц</button>
+        <button type="button" class="btn btn-block btn-outline-secondary btn-fixed ml-3 font-weight-medium"
+                id="btn-month">Месяц
+        </button>
     </div>
     <div>
-        <button type="button" class="btn btn-block btn-outline-secondary btn-fixed ml-3" id="btn-year">Год</button>
+        <button type="button" class="btn btn-block btn-outline-secondary btn-fixed ml-3 font-weight-medium"
+                id="btn-year">Год
+        </button>
     </div>
     <div>
-        <button type="button" class="btn btn-block btn-outline-secondary btn-fixed ml-3" id="btn-all-periods-calendar">
+        <button type="button" class="btn btn-block btn-outline-secondary btn-fixed ml-3 font-weight-medium"
+                id="btn-all-periods-calendar">
             Все
         </button>
     </div>
     <div>
-        <button type="button" class="btn btn-block btn-outline-secondary btn-fixed ml-3" id="btn-interval">Интервал
+        <button type="button" class="btn btn-block btn-outline-secondary btn-fixed ml-3 font-weight-medium"
+                id="btn-interval">Интервал
         </button>
     </div>
     <!--Даты-->
@@ -37,7 +47,7 @@
 <!--Диаграммы пирог-->
 <div class="d-flex justify-content-around align-items-end p-5">
     <div>
-        <h3 class="text-center fs-5">Доходы</h3>
+        <h3 class="text-center fs-5 text-info">Доходы</h3>
 
         <div style="width: 450px;">
             <canvas id="income_pie"></canvas>
@@ -45,7 +55,7 @@
     </div>
     <div class="d-block line-custom"></div>
     <div>
-        <h3 class="text-center ">Расходы</h3>
+        <h3 class="text-center text-info">Расходы</h3>
         <div style="width: 450px;">
             <canvas id="expense_pie"></canvas>
         </div>
