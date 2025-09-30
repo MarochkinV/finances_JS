@@ -371,7 +371,9 @@ export class Router {
 
                     try {
                         // 🔥 ИНИЦИАЛИЗИРУЕМ TREEVIEW ВРУЧНУЮ ===
-                        $('[data-widget="treeview"]').Treeview('init');
+                        setTimeout(() => {
+                            $('[data-widget="treeview"]').Treeview('init');
+                        }, 100);
 
                         contentBlock = document.getElementById('content-layout');
                         document.body.classList.add('sidebar-mini', 'layout-fixed');
