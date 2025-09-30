@@ -142,7 +142,11 @@ export class Router {
                 useLayout: '/templates/layout.html',
                 requiresAuth: true,
                 load: () => {
+                    document.getElementById('income-expense-category').classList.add('menu-open');
                     new IncomeCategoryCreation(this.openNewRoute.bind(this));
+                },
+                unload: () => {
+                    document.getElementById('income-expense-category').classList.remove('menu-open');
                 },
             },
             {
@@ -152,7 +156,11 @@ export class Router {
                 useLayout: '/templates/layout.html',
                 requiresAuth: true,
                 load: () => {
+                    document.getElementById('income-expense-category').classList.add('menu-open');
                     new IncomeCategoryEdit(this.openNewRoute.bind(this));
+                },
+                unload: () => {
+                    document.getElementById('income-expense-category').classList.remove('menu-open');
                 },
             },
             {
@@ -176,7 +184,11 @@ export class Router {
                 useLayout: '/templates/layout.html',
                 requiresAuth: true,
                 load: () => {
+                    document.getElementById('income-expense-category').classList.add('menu-open');
                     new ExpenseCategoryCreation(this.openNewRoute.bind(this));
+                },
+                unload: () => {
+                    document.getElementById('income-expense-category').classList.remove('menu-open');
                 },
             },
             {
@@ -186,7 +198,11 @@ export class Router {
                 useLayout: '/templates/layout.html',
                 requiresAuth: true,
                 load: () => {
+                    document.getElementById('income-expense-category').classList.add('menu-open');
                     new ExpenseCategoryEdit(this.openNewRoute.bind(this));
+                },
+                unload: () => {
+                    document.getElementById('income-expense-category').classList.remove('menu-open');
                 },
             },
         ];
@@ -197,6 +213,7 @@ export class Router {
         const userData = localStorage.getItem('userData');
         return userData !== null && userData !== undefined;
     }
+
     // Метод для перенаправления неавторизованных пользователей
     redirectToLogin() {
         if (window.location.pathname !== '/login') {
@@ -217,21 +234,33 @@ export class Router {
         }
     }
 
-    //Метод для установки активного пункта меню
-    setActiveMenuItem(route) {
+    // Метод для установки активного пункта меню
+    setActiveMenuItem(currentRoute) {
         // Удаляем активный класс у всех пунктов меню
         const allNavLinks = document.querySelectorAll('.nav-sidebar .nav-link');
         allNavLinks.forEach(link => {
             link.classList.remove('active');
         });
 
+        // Определяем, какой маршрут должен быть активным в меню
+        let activeRoute = currentRoute;
+
+        // Если текущий маршрут — это подстраница категории доходов, используем родительский маршрут
+        if (currentRoute.startsWith('/income-category-')) {
+            activeRoute = '/income-category';
+        } else if (currentRoute.startsWith('/expense-category-')) {
+            activeRoute = '/expense-category';
+        } else if (currentRoute.startsWith('/income-and-expense-')) {
+            activeRoute = '/income-and-expense';
+        }
+
         // Находим и активируем соответствующий пункт меню по href
-        const targetLink = document.querySelector(`.nav-sidebar .nav-link[href="${route}"]`);
+        const targetLink = document.querySelector(`.nav-sidebar .nav-link[href="${activeRoute}"]`);
 
         if (targetLink) {
             targetLink.classList.add('active');
 
-            // Если это подпункт (внутри nav-treeview), активируем также родительский пункт
+            // Активируем родительский пункт, если это подменю
             const parentItem = targetLink.closest('.nav-treeview');
             if (parentItem) {
                 const parentLink = parentItem.previousElementSibling;
@@ -240,8 +269,8 @@ export class Router {
                 }
             }
 
-            // Сохраняем активный пункт в sessionStorage для восстановления после перезагрузки
-            sessionStorage.setItem('activeMenuItem', route);
+            // Сохраняем исходный маршрут (не родительский!) для восстановления после перезагрузки
+            sessionStorage.setItem('activeMenuItem', currentRoute);
         }
     }
 
