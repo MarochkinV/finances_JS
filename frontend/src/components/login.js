@@ -66,6 +66,21 @@ export class Login {
             //Сохранение токенов и рефрештокенов используем auth-utils.js там прописан данный функционал
             AuthUtils.setAuthInfo(result.response.tokens.accessToken, result.response.tokens.refreshToken, {id: result.response.user.id, name: result.response.user.name});
 
+            // Сохраняем данные пользователя в localStorage для отображения в user panel 📌
+            const userData = {
+                name: result.response.user.name,
+                email: result.response.user.email,
+                id: result.response.user.id
+            };
+
+            // Добавляем lastName если он есть в ответе
+            if (result.response.user.lastName) {
+                userData.lastName = result.response.user.lastName;
+                // Если хотите отображать полное имя в формате "Имя Фамилия"
+                userData.fullName = result.response.user.name + ' ' + result.response.user.lastName;
+            }
+
+            localStorage.setItem('userData', JSON.stringify(userData));
 
             //Перевод пользователя на главную страницу
             this.openNewRoute('/');

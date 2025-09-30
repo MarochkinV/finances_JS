@@ -50,19 +50,13 @@ module.exports = {
                 {from: "./node_modules/admin-lte/plugins/jquery/jquery.min.js", to: "js"},
                 {from: "./node_modules/admin-lte/plugins/bootstrap/js/bootstrap.bundle.min.js", to: "js"},
                 {from: "./node_modules/admin-lte/dist/js/adminlte.min.js", to: "js"},
-
             ],
         }),
-
-
     ],
 };
-
-//frontend/node_modules/admin-lte/plugins/fontawesome-free/webfonts
 
 
 // npm run dev     будет запускать сборку в режиме разработки
 // npm run build   в режиме продакшена.
-
 
 //id="content-layout"

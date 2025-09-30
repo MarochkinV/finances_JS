@@ -61,14 +61,6 @@ export class SignUp {
             isValid = false;
         }
 
-        //Проверка на нажатие чекбокса
-        // if (this.agreeMeElement.checked ) {
-        //     this.agreeMeElement.classList.remove("is-invalid")
-        // } else {
-        //     this.agreeMeElement.classList.add("is-invalid");
-        //     isValid = false;
-        // }
-
         return isValid;
     }
 
@@ -92,6 +84,13 @@ export class SignUp {
             }
             //Сохранение токенов и рефрештокенов используем auth-utils.js там прописан данный функционал
             AuthUtils.setAuthInfo(result.response.accessToken, result.response.refreshToken, {id: result.response.user.id, name: result.response.user.name});
+
+            //Сохраняем данные пользователя в localStorage для отображения в user panel 📌
+            localStorage.setItem('userData', JSON.stringify({
+                name: result.response.user.name + ' ' + result.response.user.lastName,
+                email: result.response.user.email,
+                id: result.response.user.id
+            }));
 
             //Перевод пользователя на главную страницу
             this.openNewRoute('/login');

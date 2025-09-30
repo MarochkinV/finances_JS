@@ -1,33 +1,46 @@
 <!--Заголовок-->
 <div class="p-5 mt-5">
-    <h1 style="font-size: 40px; font-weight: 500; color: #052C65; line-height: 47px; ">Доходы и расходы</h1>
+    <h1 class="text-info">Доходы и расходы</h1>
 </div>
 <!--Кнопки создания дохода и расхода-->
 <div class="pl-5 pb-5">
-    <a href="/income-and-expense-creation" class="btn btn-success btn-sm p-2 pl-3 pr-3" style="border-radius: 5px;" id="btn-add-income">Создать доход</a>
-    <a href="/income-and-expense-creation" class="btn btn-danger btn-sm ml-2 p-2 pl-3 pr-3" style="border-radius: 5px;" id="btn-add-expense">Создать расход</a>
+    <a href="/income-and-expense-creation" class="btn btn-success p-2 pl-3 pr-3 rounded font-weight-medium"
+       id="btn-add-income">Создать
+        доход</a>
+    <a href="/income-and-expense-creation" class="btn btn-danger  ml-2 p-2 pl-3 pr-3 rounded font-weight-medium"
+       id="btn-add-expense">Создать расход</a>
 </div>
 <!--Кнопки с различными периодами года-->
 <div class="d-flex align-items-center pl-5 pb-5">
     <div>
-        <button type="button" class="btn btn-block btn-outline-secondary btn-fixed" id="btn-today">Сегодня</button>
+        <button type="button" class="btn btn-block btn-outline-secondary btn-fixed font-weight-medium" id="btn-today">
+            Сегодня
+        </button>
     </div>
     <div>
-        <button type="button" class="btn btn-block btn-outline-secondary btn-fixed ml-3" id="btn-week">Неделя</button>
+        <button type="button" class="btn btn-block btn-outline-secondary btn-fixed ml-3 font-weight-medium"
+                id="btn-week">Неделя
+        </button>
     </div>
     <div>
-        <button type="button" class="btn btn-block btn-outline-secondary btn-fixed ml-3" id="btn-month">Месяц</button>
+        <button type="button" class="btn btn-block btn-outline-secondary btn-fixed ml-3 font-weight-medium"
+                id="btn-month">Месяц
+        </button>
     </div>
     <div>
-        <button type="button" class="btn btn-block btn-outline-secondary btn-fixed ml-3" id="btn-year">Год</button>
+        <button type="button" class="btn btn-block btn-outline-secondary btn-fixed ml-3 font-weight-medium"
+                id="btn-year">Год
+        </button>
     </div>
     <div>
-        <button type="button" class="btn btn-block btn-outline-secondary btn-fixed ml-3" id="btn-all-periods-calendar">
+        <button type="button" class="btn btn-block btn-outline-secondary btn-fixed ml-3 font-weight-medium"
+                id="btn-all-periods-calendar">
             Все
         </button>
     </div>
     <div>
-        <button type="button" class="btn btn-block btn-outline-secondary btn-fixed ml-3" id="btn-interval">Интервал
+        <button type="button" class="btn btn-block btn-outline-secondary btn-fixed ml-3 font-weight-medium"
+                id="btn-interval">Интервал
         </button>
     </div>
     <!--Даты-->
@@ -41,7 +54,7 @@
 <!--Таблица со списком-->
 <div class="d-flex align-items-center pl-5 pr-5">
     <table class="table text-center table-clean-header">
-        <thead style="color: #052C65;">
+        <thead>
         <tr>
             <th>№ операции</th>
             <th>Тип</th>
@@ -80,8 +93,6 @@
                               fill="black"/>
                     </svg>
                 </a>
-
-
             </td>
         </tr>
         <tr class="border-bottom">
@@ -120,13 +131,16 @@
 <!-- модальное окно -->
 <div class="modal fade" id="myModal">
     <div class="modal-dialog modal-dialog-centered ">
-        <div class="modal-content elevation-0 border-0 pt-2 pb-2" style="border-radius: 12px;">
-            <div class="modal-body text-center py-4 px-3" style="color: #290661; font-weight: 500; font-size: 20px;">
+        <div class="modal-content elevation-0 border-0 p-3 rounded-12">
+            <h5 class="modal-body text-center py-2 px-3 text-info-emphasis">
                 Вы действительно хотите удалить операцию?
-            </div>
-            <div class="modal-footer d-flex justify-content-center border-top-0 pt-0 pb-3 px-3">
-                <button type="button" class="btn btn-success" style="border-radius: 5px;">Да, удалить</button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal" style="border-radius: 5px;">Не удалять</button>
+            </h5>
+            <div class="modal-footer d-flex justify-content-center border-top-0 pt-1 pb-3 px-3">
+                <button type="button" class="btn btn-custom btn-success mr-2 rounded font-weight-medium">Да, удалить
+                </button>
+                <button type="button" class="btn btn-custom btn-danger rounded font-weight-medium" data-dismiss="modal">
+                    Не удалять
+                </button>
             </div>
         </div>
     </div>
