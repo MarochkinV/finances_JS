@@ -1,16 +1,17 @@
-import {Login} from "./components/login";
-import {SignUp} from "./components/sign-up";
+import {Login} from "./components/auth/login";
+import {SignUp} from "./components/auth/sign-up";
 import {Main} from "./components/main";
-import {Logout} from "./components/logout";
-import {IncomeAndExpense} from "./components/income-and-expense";
-import {IncomeAndExpenseCreation} from "./components/income-and-expense-creation";
-import {IncomeAndExpenseEdit} from "./components/income-and-expense-edit";
-import {IncomeCategory} from "./components/income-category";
-import {IncomeCategoryCreation} from "./components/income-category-creation";
-import {IncomeCategoryEdit} from "./components/income-category-edit";
-import {ExpenseCategory} from "./components/expense-category";
-import {ExpenseCategoryCreation} from "./components/expense-category-creation";
-import {ExpenseCategoryEdit} from "./components/expense-category-edit";
+import {Logout} from "./components/auth/logout";
+import {IncomeAndExpense} from "./components/operations/income-and-expense";
+import {IncomeAndExpenseCreation} from "./components/operations/income-and-expense-creation";
+import {IncomeAndExpenseEdit} from "./components/operations/income-and-expense-edit";
+import {IncomeCategory} from "./components/category-income/income-category";
+import {IncomeCategoryCreation} from "./components/category-income/income-category-creation";
+import {IncomeCategoryEdit} from "./components/category-income/income-category-edit";
+import {ExpenseCategory} from "./components/categiry-expense/expense-category";
+import {ExpenseCategoryCreation} from "./components/categiry-expense/expense-category-creation";
+import {ExpenseCategoryEdit} from "./components/categiry-expense/expense-category-edit";
+import {HttpUtils} from "./utils/http-utils";
 
 
 export class Router {
@@ -27,8 +28,8 @@ export class Router {
         //Добавляем обновление имени пользователя при инициализации роутера
         this.updateUserName();
 
-
-        this.publicRoutes = ['/login', '/sign-up', '/404'];
+        //Добавление баланса пользователя
+        this.getBalanceInfo().then();
 
         //Массив, который отвечает за наши страницы
         this.routes = [
@@ -36,7 +37,7 @@ export class Router {
             {
                 route: '/', //Главная страница (Дашборд)
                 title: 'Главная', //Вставка  title страницы
-                filePathTemplate: '/templates/main.html', //Вставка шаблона со страницей HTML
+                filePathTemplate: '/templates/pages/main.html', //Вставка шаблона со страницей HTML
                 useLayout: '/templates/layout.html', //Вставляем там, где нужно загрузить, заранее подготовленный layout.html
                 requiresAuth: true, //Требует авторизации true or false
                 load: () => { //Загрузка компонента с классами JS определенной страницы
@@ -47,7 +48,7 @@ export class Router {
             {
                 route: '/404',
                 title: 'Страница не найдена',
-                filePathTemplate: '/templates/404.html',
+                filePathTemplate: '/templates/pages/404.html',
                 //load не добавляется для страницы 404 так как незачем, на этой странице нет кода JS
                 useLayout: false,
                 requiresAuth: false,
@@ -55,7 +56,7 @@ export class Router {
             {
                 route: '/login',
                 title: 'Авторизация',
-                filePathTemplate: '/templates/login.html',
+                filePathTemplate: '/templates/auth/login.html',
                 useLayout: false,
                 requiresAuth: false,
                 load: () => {
@@ -71,7 +72,7 @@ export class Router {
             {
                 route: '/sign-up',
                 title: 'Регистрация',
-                filePathTemplate: '/templates/sign-up.html',
+                filePathTemplate: '/templates/auth/sign-up.html',
                 useLayout: false,
                 requiresAuth: false,
                 load: () => {
@@ -94,7 +95,7 @@ export class Router {
             {
                 route: '/income-and-expense',
                 title: 'Доходы & Расходы',
-                filePathTemplate: '/templates/income-and-expense.html',
+                filePathTemplate: '/templates/pages/operations/income-and-expense.html',
                 useLayout: '/templates/layout.html',
                 requiresAuth: true,
                 load: () => {
@@ -104,7 +105,7 @@ export class Router {
             {
                 route: '/income-and-expense-creation',
                 title: 'Создание дохода/расхода',
-                filePathTemplate: '/templates/income-and-expense-creation.html',
+                filePathTemplate: '/templates/pages/operations/income-and-expense-creation.html',
                 useLayout: '/templates/layout.html',
                 requiresAuth: true,
                 load: () => {
@@ -114,7 +115,7 @@ export class Router {
             {
                 route: '/income-and-expense-edit',
                 title: 'Создание дохода/расхода',
-                filePathTemplate: '/templates/income-and-expense-edit.html',
+                filePathTemplate: '/templates/pages/operations/income-and-expense-edit.html',
                 useLayout: '/templates/layout.html',
                 requiresAuth: true,
                 load: () => {
@@ -124,7 +125,7 @@ export class Router {
             {
                 route: '/income-category',
                 title: 'Доходы & Расходы',
-                filePathTemplate: '/templates/income-category.html',
+                filePathTemplate: '/templates/pages/category-income/income-category.html',
                 useLayout: '/templates/layout.html',
                 requiresAuth: true,
                 load: () => {
@@ -138,7 +139,7 @@ export class Router {
             {
                 route: '/income-category-creation',
                 title: 'Создание категории доходов',
-                filePathTemplate: '/templates/income-category-creation.html',
+                filePathTemplate: '/templates/pages/category-income/income-category-creation.html',
                 useLayout: '/templates/layout.html',
                 requiresAuth: true,
                 load: () => {
@@ -152,7 +153,7 @@ export class Router {
             {
                 route: '/income-category-edit',
                 title: 'Создание категории доходов',
-                filePathTemplate: '/templates/income-category-edit.html',
+                filePathTemplate: '/templates/pages/category-income/income-category-edit.html',
                 useLayout: '/templates/layout.html',
                 requiresAuth: true,
                 load: () => {
@@ -166,7 +167,7 @@ export class Router {
             {
                 route: '/expense-category',
                 title: 'Доходы & Расходы',
-                filePathTemplate: '/templates/expense-category.html',
+                filePathTemplate: '/templates/pages/category-expense/expense-category.html',
                 useLayout: '/templates/layout.html',
                 requiresAuth: true,
                 load: () => {
@@ -180,7 +181,7 @@ export class Router {
             {
                 route: '/expense-category-creation',
                 title: 'Создание категории расходов',
-                filePathTemplate: '/templates/expense-category-creation.html',
+                filePathTemplate: '/templates/pages/category-expense/expense-category-creation.html',
                 useLayout: '/templates/layout.html',
                 requiresAuth: true,
                 load: () => {
@@ -194,7 +195,7 @@ export class Router {
             {
                 route: '/expense-category-edit',
                 title: 'Редактирование категории расходов',
-                filePathTemplate: '/templates/expense-category-edit.html',
+                filePathTemplate: '/templates/pages/category-expense/expense-category-edit.html',
                 useLayout: '/templates/layout.html',
                 requiresAuth: true,
                 load: () => {
@@ -206,6 +207,7 @@ export class Router {
                 },
             },
         ];
+
     }
 
     //Метод для проверки авторизации пользователя
@@ -291,6 +293,30 @@ export class Router {
             }
         }
     }
+
+
+    //Метод для отображения баланса
+   async getBalanceInfo() {
+       try {
+           const result = await HttpUtils.request('/balance', 'GET');
+           //если есть ошибка и заполнен редирект
+           if (result.error||result.redirect) {
+               return this.openNewRoute(result.redirect);
+           }
+
+
+           const balanceElement = document.getElementById('balance');
+           if (balanceElement && result?.response?.balance !== undefined) {
+               balanceElement.innerText = result.response.balance + '$';
+           }
+
+       } catch (error) {
+           const balanceElement = document.getElementById('balance');
+           if (balanceElement) {
+               balanceElement.innerText = 'Ошибка';
+           }
+       }
+   }
 
     initEvents() {
         window.addEventListener('DOMContentLoaded', this.activateRoute.bind(this));
@@ -399,7 +425,7 @@ export class Router {
                 if (newRoute.useLayout) {
 
                     try {
-                        // 🔥 ИНИЦИАЛИЗИРУЕМ TREEVIEW ВРУЧНУЮ ===
+                        //Инициализация Treeview
                         setTimeout(() => {
                             $('[data-widget="treeview"]').Treeview('init');
                         }, 100);
@@ -428,6 +454,14 @@ export class Router {
                 setTimeout(() => {
                     this.setActiveMenuItem(newRoute.route);
                 }, 100);
+
+                //Отображение баланса
+                if (this.isAuthenticated()&&(newRoute!=='/login')) {
+                    const balanceElement = document.getElementById('balance');
+                    if (balanceElement) {
+                        this.getBalanceInfo().then();
+                    }
+                }
             }
 
             //Проверяем есть ли в newRoute функция Load и вызываем ее
@@ -440,5 +474,8 @@ export class Router {
             history.pushState({}, '', '/404');
             await this.activateRoute(null, urlRoute);
         }
+
+
     };
+
 }

@@ -1,5 +1,5 @@
-import {AuthUtils} from "../utils/auth-utils";
-import {HttpUtils} from "../utils/http-utils";
+import {AuthUtils} from "../../utils/auth-utils";
+import {HttpUtils} from "../../utils/http-utils";
 
 export class Login {
     constructor(openNewRoute) {
@@ -50,12 +50,11 @@ export class Login {
 
         if (this.validateForm()) {
 
-            const result = await HttpUtils.request('/login', 'POST', {
+            const result = await HttpUtils.request('/login', 'POST', false, {
                 email: this.emailElement.value,
                 password: this.passwordElement.value,
                 rememberMe: this.rememberMeElement.checked
-            })
-
+            });
 
             //Проверка result на наличие ошибки или отсутствия какого либо значения, в случае ошибки показывается сообщение
             if (result.error || !result.response || (result.response && (!result.response.tokens.accessToken || !result.response.tokens.refreshToken || !result.response.user.id || !result.response.user.name))) {
@@ -64,9 +63,12 @@ export class Login {
             }
 
             //Сохранение токенов и рефрештокенов используем auth-utils.js там прописан данный функционал
-            AuthUtils.setAuthInfo(result.response.tokens.accessToken, result.response.tokens.refreshToken, {id: result.response.user.id, name: result.response.user.name});
+            AuthUtils.setAuthInfo(result.response.tokens.accessToken, result.response.tokens.refreshToken, {
+                id: result.response.user.id,
+                name: result.response.user.name
+            });
 
-            // Сохраняем данные пользователя в localStorage для отображения в user panel 📌
+            // Сохраняем данные пользователя в localStorage для отображения в user panel
             const userData = {
                 name: result.response.user.name,
                 email: result.response.user.email,

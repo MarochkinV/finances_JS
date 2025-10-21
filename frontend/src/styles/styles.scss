@@ -114,6 +114,17 @@ body {
   border-top: 1px solid #dee2e6;
 }
 
+// Выравнивание содержимого ячеек по вертикали по центру
+.table-clean-header th,
+.table-clean-header td {
+  vertical-align: middle !important;
+}
+
+// Нижняя граница последней строки таблицы
+.table-clean-header tbody tr:last-child td {
+  border-bottom: 1px solid #dee2e6;
+}
+
 /* Вертикальная серая полоска справа от сайдбара */
 .main-sidebar {
   position: relative;
