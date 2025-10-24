@@ -1,5 +1,5 @@
-import {AuthUtils} from "../utils/auth-utils";
-import {HttpUtils} from "../utils/http-utils";
+import {AuthUtils} from "../../utils/auth-utils";
+import {HttpUtils} from "../../utils/http-utils";
 
 export class SignUp {
     constructor(openNewRoute) {
@@ -70,22 +70,43 @@ export class SignUp {
         this.commonErrorElement.style.display = "none";
 
         if (this.validateForm()) {
-            const result = await HttpUtils.request('/signup', 'POST', {
+            const result = await HttpUtils.request('/signup', 'POST', false,{
                 name: this.nameElement.value,
                 lastName: this.lastNameElement.value,
                 email: this.emailElement.value,
                 password: this.passwordElement.value,
                 passwordRepeat: this.passwordRepeatElement.value
             })
+
+
+            if (result.redirect) {
+                window.location.href = result.redirect;
+                return;
+            }
+
             //Проверка result на наличие ошибки или отсутствия какого либо значения, в случае ошибки показывается сообщение
             if (result.error || !result.response || (result.response && (!result.response.user.id || !result.response.user.name))) {
                 this.commonErrorElement.style.display = "block";
                 return;
             }
-            //Сохранение токенов и рефрештокенов используем auth-utils.js там прописан данный функционал
-            AuthUtils.setAuthInfo(result.response.accessToken, result.response.refreshToken, {id: result.response.user.id, name: result.response.user.name});
 
-            //Сохраняем данные пользователя в localStorage для отображения в user panel 📌
+            // так как SignUp не возвращает токенов то отправим сразу запрос на логин
+            const resultLogin = await HttpUtils.request('/login', 'POST', false,{
+                email: this.emailElement.value,
+                password: this.passwordElement.value,
+                rememberMe: false
+            })
+
+            //Проверка result на наличие ошибки или отсутствия какого либо значения, в случае ошибки показывается сообщение
+            if (resultLogin.error || !resultLogin.response || (resultLogin.response && (!resultLogin.response.user.id || !resultLogin.response.user.name))) {
+                this.commonErrorElement.style.display = "block";
+                return;
+            }
+
+            //Сохранение токенов и рефрештокенов используем auth-utils.js там прописан данный функционал
+            AuthUtils.setAuthInfo(resultLogin.response.tokens.accessToken, resultLogin.response.tokens.refreshToken, {id: result.response.user.id, name: result.response.user.name});
+
+            //Сохраняем данные пользователя в localStorage для отображения в user panel
             localStorage.setItem('userData', JSON.stringify({
                 name: result.response.user.name + ' ' + result.response.user.lastName,
                 email: result.response.user.email,

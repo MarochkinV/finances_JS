@@ -1,5 +1,5 @@
-import {AuthUtils} from "../utils/auth-utils";
-import {HttpUtils} from "../utils/http-utils";
+import {AuthUtils} from "../../utils/auth-utils";
+import {HttpUtils} from "../../utils/http-utils";
 
 export class Logout {
     constructor(openNewRoute) {
@@ -9,6 +9,11 @@ export class Logout {
         if (!AuthUtils.getAuthInfo(AuthUtils.accessTokenKey) || !AuthUtils.getAuthInfo(AuthUtils.refreshTokenKey)) {
             return this.openNewRoute('/login');
         }
+        //Удаление токенов, рефрештокенов и информации о пользователе используем auth-utils.js там прописан данный функционал
+        AuthUtils.removeAuthInfo();
+
+        //Удаляем данные пользователя из localStorage при выходе из системы
+        localStorage.removeItem('userData');
 
         this.logout().then();
 
@@ -17,15 +22,14 @@ export class Logout {
     //Функция для разлогинивания пользователя
     async logout() {
 
-        await HttpUtils.request('/logout', 'POST', {
+        await HttpUtils.request('/logout', 'POST', false,{
             refreshToken: AuthUtils.getAuthInfo(AuthUtils.refreshTokenKey),
         })
-
 
         //Удаление токенов, рефрештокенов и информации о пользователе используем auth-utils.js там прописан данный функционал
         AuthUtils.removeAuthInfo();
 
-        //Удаляем данные пользователя из localStorage при выходе из системы 📌
+        //Удаляем данные пользователя из localStorage при выходе из системы
         localStorage.removeItem('userData');
 
         //Перевод пользователя на страницу /login
